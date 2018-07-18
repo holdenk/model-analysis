@@ -64,17 +64,21 @@ def transform_data(input_handle,
     for key in taxi.DENSE_FLOAT_FEATURE_KEYS:
       # Preserve this feature as a dense float, setting nan's to the mean.
       outputs[key] = transform.scale_to_z_score(inputs[key])
+      break
 
     for key in taxi.VOCAB_FEATURE_KEYS:
       # Build a vocabulary for this feature.
       outputs[key] = transform.string_to_int(
           inputs[key], top_k=taxi.VOCAB_SIZE, num_oov_buckets=taxi.OOV_SIZE)
+      break
 
     for key in taxi.BUCKET_FEATURE_KEYS:
       outputs[key] = transform.bucketize(inputs[key], taxi.FEATURE_BUCKET_COUNT)
+      break
 
     for key in taxi.CATEGORICAL_FEATURE_KEYS:
       outputs[key] = inputs[key]
+      break
 
     # Was this passenger a big tipper?
     def convert_label(label):
